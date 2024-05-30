@@ -19,8 +19,8 @@ jobs:
       - name: 'Commit Files'
         id: commit
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "syc295317224@foxmail.com"
+          git config --local user.name "Preheated5824"
           git add .
           git diff --quiet && git diff --staged --quiet || git commit -am 'Keep Workflow Alive'
           echo ::set-output name=status::success
