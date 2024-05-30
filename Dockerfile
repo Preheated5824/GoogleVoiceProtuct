@@ -1,14 +1,6 @@
-# Use a base image with Node.js
-FROM node:14
+FROM hombro/groupme-notify:v0.2
 
-# Set the working directory
-WORKDIR /app
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Copy the action repository files to the working directory
-COPY . .
-
-# Install the necessary dependencies
-RUN npm install
-
-# Entry point for the Docker container
-CMD ["node", "index.js"]
+ENTRYPOINT ["/entrypoint.sh"]
