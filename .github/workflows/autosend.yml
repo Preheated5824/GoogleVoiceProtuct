@@ -1,10 +1,10 @@
 name: "Autosend"
 
 on:
-  push: 
+  push:
     branches: main
-  schedule: 
-    - cron: 25 09 * * * # 每天9点25分自动执行
+  schedule:
+    - cron: '25 09 * * *' # 每天9点25分自动执行
   workflow_dispatch:
     inputs:
 
@@ -14,13 +14,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: do notification as bot
-        uses: nhomble/groupme-notify-action@v1
-        id: bot
-        with:
-          bot: ${{ secrets.GM_BOT_ID }}
-          message: "Never say die!"
-          token: ${{ secrets.GM_API_KEY }}
+      
+      - name: Build Docker Image
+        run: |
+          docker build -t my-groupme-notify-action .
+
+      - name: Run GroupMe Notification
+        run: |
+          docker run --rm \
+            -e GM_BOT_ID=${{ secrets.GM_BOT_ID }} \
+            -e GM_API_KEY=${{ secrets.GM_API_KEY }} \
+            my-groupme-notify-action
 
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@main
